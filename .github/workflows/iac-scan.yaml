@@ -5,24 +5,44 @@ on:
     branches:
       - master
       - develop
+  pull_request:
+    branches:
+      - master
 
 jobs:
   terraform_plan:
     name: Generate Terraform Plan Output
-    uses: hashicorp/terraform-cdk-action@v0.1.0
-    with:
-      workingDirectory: cdktf.out
-      terraformVersion: 1.5.2
-      cdktfVersion: 0.16.1
-      mode: plan-only
-      stackName: sonarqube
-      githubToken: {{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  iac-scan:
-    needs: terraform_plan
-    uses: Xttreme/cross-github-actions/.github/workflows/iac-audit.yaml@iac
-    with:
-      directory: cdktf.out
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Generate module and provider bindings
+      #   run: npx cdktf-cli get
+      - name: Run Terraform CDK
+        uses: hashicorp/terraform-cdk-action@v0.1.0
+        with:
+          # runs-on: ubuntu-latest
+          workingDirectory: cdktf.out
+          terraformVersion: 1.5.2
+          cdktfVersion: 0.16.1
+          mode: plan-only
+          stackName: sonarqube
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  # iac-scan:
+  #   needs: terraform_plan
+  #   uses: Xttreme/cross-github-actions/.github/workflows/iac-audit.yaml@iac
+  #   with:
+  #     runs-on: ubuntu-latest
+  #     directory: cdktf.out
 
       # - name: Run Terraform CDK
       #   uses: hashicorp/terraform-cdk-action@v0.1.0
@@ -32,4 +52,5 @@ jobs:
       #     cdktfVersion: 0.16.1
       #     mode: auto-approve-apply
       #     stackName: ${{ vars.SONARQUBE_TF_STACK_NAME }}
+      #     githubToken: ${{ secrets.GITHUB_TOKEN }}
       #     githubToken: ${{ secrets.GITHUB_TOKEN }}
