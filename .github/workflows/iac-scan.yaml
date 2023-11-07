@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Generate module and provider bindings
-        run: npx cdktf-cli get
+      # - name: Generate module and provider bindings
+      #   run: npx cdktf-cli get
       - name: Run Terraform CDK
         uses: hashicorp/terraform-cdk-action@v0.1.0
         with:
