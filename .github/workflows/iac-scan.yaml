@@ -33,3 +33,4 @@ jobs:
       #     mode: auto-approve-apply
       #     stackName: ${{ vars.SONARQUBE_TF_STACK_NAME }}
       #     githubToken: ${{ secrets.GITHUB_TOKEN }}
+      #     githubToken: ${{ secrets.GITHUB_TOKEN }}
