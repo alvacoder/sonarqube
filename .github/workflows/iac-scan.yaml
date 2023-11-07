@@ -27,7 +27,7 @@ jobs:
       - name: Generate module and provider bindings
         run: npx cdktf-cli get
       - name: Run Terraform CDK
-        uses: hashicorp/terraform-cdk-action@v0.2
+        uses: hashicorp/terraform-cdk-action@v0.1.0
         with:
           # runs-on: ubuntu-latest
           workingDirectory: cdktf.out
