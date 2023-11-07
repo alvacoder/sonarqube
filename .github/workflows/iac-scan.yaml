@@ -1,0 +1,35 @@
+name: "IaC Scan"
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+jobs:
+  terraform_plan:
+    name: Generate Terraform Plan Output
+    uses: hashicorp/terraform-cdk-action@v0.1.0
+    with:
+      workingDirectory: cdktf.out
+      terraformVersion: 1.5.2
+      cdktfVersion: 0.16.1
+      mode: plan-only
+      stackName: sonarqube
+      githubToken: {{ secrets.GITHUB_TOKEN }}
+
+  iac-scan:
+    needs: terraform_plan
+    uses: Xttreme/cross-github-actions/.github/workflows/iac-audit.yaml@iac
+    with:
+      directory: cdktf.out
+
+      # - name: Run Terraform CDK
+      #   uses: hashicorp/terraform-cdk-action@v0.1.0
+      #   with:
+      #     workingDirectory: services/sonarqube
+      #     terraformVersion: 1.5.2
+      #     cdktfVersion: 0.16.1
+      #     mode: auto-approve-apply
+      #     stackName: ${{ vars.SONARQUBE_TF_STACK_NAME }}
+      #     githubToken: ${{ secrets.GITHUB_TOKEN }}
