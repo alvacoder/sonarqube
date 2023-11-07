@@ -35,7 +35,6 @@ jobs:
           cdktfVersion: 0.16.1
           mode: plan-only
           stackName: sonarqube
-          githubToken: {{ secrets.GITHUB_TOKEN }}
 
   # iac-scan:
   #   needs: terraform_plan
