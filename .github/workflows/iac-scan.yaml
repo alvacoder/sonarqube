@@ -12,6 +12,7 @@ on:
 jobs:
   terraform_plan:
     name: Generate Terraform Plan Output
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,7 +29,7 @@ jobs:
       - name: Run Terraform CDK
         uses: hashicorp/terraform-cdk-action@v0.2
         with:
-          runs-on: ubuntu-latest
+          # runs-on: ubuntu-latest
           workingDirectory: cdktf.out
           terraformVersion: 1.5.2
           cdktfVersion: 0.16.1
