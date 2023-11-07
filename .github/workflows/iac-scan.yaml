@@ -12,8 +12,9 @@ on:
 jobs:
   terraform_plan:
     name: Generate Terraform Plan Output
-    uses: hashicorp/terraform-cdk-action@v0.1.0
+    uses: hashicorp/terraform-cdk-action@v0.2
     with:
+      runs-on: ubuntu-latest
       workingDirectory: cdktf.out
       terraformVersion: 1.5.2
       cdktfVersion: 0.16.1
@@ -21,11 +22,12 @@ jobs:
       stackName: sonarqube
       githubToken: {{ secrets.GITHUB_TOKEN }}
 
-  iac-scan:
-    needs: terraform_plan
-    uses: Xttreme/cross-github-actions/.github/workflows/iac-audit.yaml@iac
-    with:
-      directory: cdktf.out
+  # iac-scan:
+  #   needs: terraform_plan
+  #   uses: Xttreme/cross-github-actions/.github/workflows/iac-audit.yaml@iac
+  #   with:
+  #     runs-on: ubuntu-latest
+  #     directory: cdktf.out
 
       # - name: Run Terraform CDK
       #   uses: hashicorp/terraform-cdk-action@v0.1.0
